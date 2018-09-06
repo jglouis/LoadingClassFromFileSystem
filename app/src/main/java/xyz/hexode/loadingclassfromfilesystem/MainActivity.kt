@@ -7,7 +7,8 @@ import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
-import xyz.hexode.linkMessager
+import xyz.hexode.Messager
+import xyz.hexode.link
 import java.io.File
 import java.io.FileOutputStream
 
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         try {
-            val messager = linkMessager("xyz.hexode.Messager1",
+            val messager = link<Messager>("xyz.hexode.Messager1",
                     dexFile,
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) codeCacheDir else cacheDir,
                     classLoader)
