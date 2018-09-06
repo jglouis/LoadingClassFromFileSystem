@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ClassLoaderTest</string>
+    <string name="no_message_yet">No message yet</string>
+    <string name="get_message">Get Message</string>
+    <string name="exception_raised">Exception raised!</string>
+</resources>

@@ -1,0 +1,42 @@
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+// Defines dx command: put dx in PATH or store its absolute path in dxCommand
+// Usually you can locate dx in SDK_DIR/build-tools/current/dx
+def dxCommand = 'dx'
+
+task dex1(type: Exec, dependsOn: classes) {
+    workingDir 'build/classes/kotlin/main'
+    commandLine 'cmd', '/c', dxCommand, '--dex', '--output=dex1.dex', '.\\xyz\\hexode\\Messager1.class'
+    commandLine 'cmd', '/c', dxCommand, '--dex', '--output=dex1bis.dex', '.\\xyz\\hexode\\Messager1.class'
+}
+
+task dex2(type: Exec, dependsOn: classes) {
+    workingDir 'build/classes/kotlin/main'
+    commandLine 'cmd', '/c', dxCommand, '--dex', '--output=dex2.dex', '.\\xyz\\hexode\\Messager2.class'
+}
+
+task dex(dependsOn: [dex1, dex2])
+
+classes.dependsOn(clean)
+
+task copyDex(type: Copy, dependsOn: dex) {
+    from ('build/classes/kotlin/main/') {
+        include '*.dex'
+    }
+    into '../app/src/main/res/raw'
+}
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.6"
+    }
+}
