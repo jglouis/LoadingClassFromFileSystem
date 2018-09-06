@@ -19,16 +19,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    fun getMessage(@Suppress("UNUSED_PARAMETER") view: View) {
+    fun getMessage(@Suppress("UNUSED_PARAMETER") view: View) =
+            getMessage(R.raw.dex1, "xyz.hexode.Messager1")
+
+    fun getMessage2(@Suppress("UNUSED_PARAMETER") view: View) =
+            getMessage(R.raw.dex2, "xyz.hexode.Messager2")
+
+    private fun getMessage(dexResourceId: Int, className: String) {
         val dexFile = File(getDir("dex", Context.MODE_PRIVATE), "messager_dex")
-        resources.openRawResource(R.raw.dex1).use { input ->
+        resources.openRawResource(dexResourceId).use { input ->
             FileOutputStream(dexFile).use {
                 val copiedBytes = input.copyTo(it)
                 Log.d(TAG, "Copied $copiedBytes bytes from resource dex file")
             }
         }
         try {
-            val messager = link<Messager>("xyz.hexode.Messager1",
+            val messager = link<Messager>(className,
                     dexFile,
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) codeCacheDir else cacheDir,
                     classLoader)

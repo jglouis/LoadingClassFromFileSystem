@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">ClassLoaderTest</string>
     <string name="no_message_yet">No message yet</string>
-    <string name="get_message">Get Message</string>
+    <string name="get_message_1">Get Message 1</string>
     <string name="exception_raised">Exception raised!</string>
+    <string name="get_message_2">Get Message 2</string>
 </resources>
