@@ -11,7 +11,6 @@ def dxCommand = 'dx'
 task dex1(type: Exec, dependsOn: classes) {
     workingDir 'build/classes/kotlin/main'
     commandLine 'cmd', '/c', dxCommand, '--dex', '--output=dex1.dex', '.\\xyz\\hexode\\Messager1.class'
-    commandLine 'cmd', '/c', dxCommand, '--dex', '--output=dex1bis.dex', '.\\xyz\\hexode\\Messager1.class'
 }
 
 task dex2(type: Exec, dependsOn: classes) {
