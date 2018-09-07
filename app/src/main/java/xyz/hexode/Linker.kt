@@ -13,7 +13,6 @@ fun <T> link(className: String, dex: File, codeCacheDir: File, parent: ClassLoad
             val classLoader = DexClassLoader(dex.absolutePath,
                     codeCacheDir.absolutePath, null, parent)
             val clazz = classLoader.loadClass(className)
-            @Suppress("UNCHECKED_CAST")
             clazz.newInstance()
         } catch (e: Exception) {
             throw RuntimeException(e)

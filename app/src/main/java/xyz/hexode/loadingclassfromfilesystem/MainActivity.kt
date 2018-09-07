@@ -14,7 +14,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
-   private val compatCodeCacheDir: File by lazy{
+    private val compatCodeCacheDir: File by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             codeCacheDir
         } else {
