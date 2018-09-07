@@ -8,35 +8,47 @@ import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 import xyz.hexode.Messager
+import xyz.hexode.MessagerOriginal
 import xyz.hexode.link
 import java.io.File
 import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
+   private val compatCodeCacheDir: File by lazy{
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            codeCacheDir
+        } else {
+            getDir("odex", Context.MODE_PRIVATE)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }
 
-    fun getMessage(@Suppress("UNUSED_PARAMETER") view: View) =
+    fun getMessageOriginal(@Suppress("UNUSED_PARAMETER") view: View) {
+        textViewMessage.text = MessagerOriginal().getMessage()
+    }
+
+    fun getMessage1(@Suppress("UNUSED_PARAMETER") view: View) =
             getMessage(R.raw.dex1, "xyz.hexode.Messager1")
 
     fun getMessage2(@Suppress("UNUSED_PARAMETER") view: View) =
             getMessage(R.raw.dex2, "xyz.hexode.Messager2")
 
     private fun getMessage(dexResourceId: Int, className: String) {
-        val dexFile = File(getDir("dex", Context.MODE_PRIVATE), "messager_dex")
+        val dexFile = File(getDir("dex", Context.MODE_PRIVATE), "$className.dex")
         resources.openRawResource(dexResourceId).use { input ->
             FileOutputStream(dexFile).use {
-                val copiedBytes = input.copyTo(it)
-                Log.d(TAG, "Copied $copiedBytes bytes from resource dex file")
+                val bytesCopied = input.copyTo(it)
+                Log.d(TAG, "Copied $bytesCopied bytes from resource dex file")
             }
         }
         try {
             val messager = link<Messager>(className,
                     dexFile,
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) codeCacheDir else cacheDir,
+                    compatCodeCacheDir,
                     classLoader)
             val message = messager.getMessage()
             Log.d(TAG, message)
